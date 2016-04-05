@@ -21,7 +21,7 @@ REQUIRED_USE="xwayland? ( X )"
 
 DEPEND="${RDEPEND}
 		media-libs/mesa[egl,gles2,wayland]
-		X? (x11-libs/libX11)
+		X? ( x11-libs/libX11 )
 		xwayland? (
 			x11-libs/libxcb[xkb]
 			x11-libs/xcb-util-image
