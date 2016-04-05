@@ -9,7 +9,6 @@ inherit cmake-utils eutils git-r3
 DESCRIPTION="Wayland compositor library"
 HOMEPAGE="https://github.com/cl91/wlc"
 EGIT_REPO_URI="https://github.com/cl91/wlc.git"
-EGIT_HAS_SUBMODULES=1
 
 
 LICENSE="MIT"
