@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE repositories SYSTEM "/dtd/repositories.dtd">
+<repositories xmlns="" version="1.0">
+  <repo quality="experimental" status="unofficial">
+    <name>wayland-only</name>
+    <description lang="en">Ebuilds for Building a Wayland-only (X11-free) System</description>
+    <homepage>https://github.com/cl91/gentoo-wayland-only</homepage>
+    <owner type="person">
+		<email>cliu712@aucklanduni.ac.nz</email>
+		<name>Chang Liu</name>
+    </owner>
+    <source type="git">git://github.com/cl91/gentoo-wayland-only.git</source>
+    <feed>https://github.com/cl91/gentoo-wayland-only/commits/master.atom</feed>
+  </repo>
+</repositories>
