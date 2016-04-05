@@ -1,0 +1,63 @@
+diff -Naur a/configure.ac b/configure.ac
+--- a/configure.ac	2015-07-16 11:46:36.000000000 +1200
++++ b/configure.ac	2016-04-04 13:55:30.677155060 +1200
+@@ -86,7 +86,7 @@
+         ;;
+     *)
+         build_egl=yes
+-        build_glx=yes
++        build_glx=no
+         build_wgl=no
+         # On platforms with dlopen, we load everything dynamically and
+         # don't link against a specific window system or GL implementation.
+diff -Naur a/src/dispatch_common.c b/src/dispatch_common.c
+--- a/src/dispatch_common.c	2015-07-16 11:46:36.000000000 +1200
++++ b/src/dispatch_common.c	2016-04-04 14:52:49.363321333 +1200
+@@ -655,24 +655,22 @@
+     return wglGetProcAddress(name);
+ #elif defined(__APPLE__)
+     return epoxy_gl_dlsym(name);
++#elif PLATFORM_HAS_EGL
++    GLenum egl_api = epoxy_egl_get_current_gl_context_api();
++
++    switch (egl_api) {
++    case EGL_OPENGL_API:
++    case EGL_OPENGL_ES_API:
++        return eglGetProcAddress(name);
++    case EGL_NONE:
++        break;
++    }
+ #else
+     if (epoxy_current_context_is_glx()) {
+         return glXGetProcAddressARB((const GLubyte *)name);
+-    } else {
+-#if PLATFORM_HAS_EGL
+-        GLenum egl_api = epoxy_egl_get_current_gl_context_api();
+-
+-        switch (egl_api) {
+-        case EGL_OPENGL_API:
+-        case EGL_OPENGL_ES_API:
+-            return eglGetProcAddress(name);
+-        case EGL_NONE:
+-            break;
+-        }
+-#endif
+     }
+-    errx(1, "Couldn't find current GLX or EGL context.\n");
+ #endif
++    errx(1, "Couldn't find current GLX or EGL context.\n");
+ }
+ 
+ WRAPPER_VISIBILITY (void)
+diff -Naur a/src/dispatch_common.h b/src/dispatch_common.h
+--- a/src/dispatch_common.h	2015-07-16 11:46:36.000000000 +1200
++++ b/src/dispatch_common.h	2016-04-04 13:55:52.623821237 +1200
+@@ -40,7 +40,7 @@
+ #define EPOXY_IMPORTEXPORT
+ #else
+ #define PLATFORM_HAS_EGL 1
+-#define PLATFORM_HAS_GLX 1
++#define PLATFORM_HAS_GLX 0
+ #define PLATFORM_HAS_WGL 0
+ #define EPOXY_IMPORTEXPORT
+ #endif

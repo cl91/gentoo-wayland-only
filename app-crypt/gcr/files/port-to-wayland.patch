@@ -1,0 +1,97 @@
+diff -Naur a/configure.ac b/configure.ac
+--- a/configure.ac	2015-09-29 05:08:46.000000000 +1300
++++ b/configure.ac	2016-04-05 08:37:04.145305321 +1200
+@@ -116,7 +116,7 @@
+ AM_CONDITIONAL(WITH_GTK, test "$with_gtk" != "no")
+ 
+ if test "x$with_gtk" != "xno"; then
+-	PKG_CHECK_MODULES(GTK, gtk+-3.0 >= $GTK_REQ gtk+-x11-3.0 >= $GTK_REQ)
++	PKG_CHECK_MODULES(GTK, gtk+-3.0 >= $GTK_REQ)
+ 	AC_SUBST(GTK_CFLAGS)
+ 	AC_SUBST(GTK_LIBS)
+ fi
+diff -Naur a/ui/frob-prompt.c b/ui/frob-prompt.c
+--- a/ui/frob-prompt.c	2014-09-23 19:40:08.000000000 +1200
++++ b/ui/frob-prompt.c	2016-04-05 08:58:04.668610300 +1200
+@@ -25,7 +25,6 @@
+ #include "gcr/gcr-base.h"
+ 
+ #include <gtk/gtk.h>
+-#include <gdk/gdkx.h>
+ 
+ #include <err.h>
+ 
+@@ -77,12 +76,6 @@
+ 	if (error != NULL)
+ 		errx (1, "couldn't create prompt: %s", error->message);
+ 
+-	if (parent) {
+-		caller_id = g_strdup_printf ("%lu", (gulong)GDK_WINDOW_XID (gtk_widget_get_window (parent)));
+-		gcr_prompt_set_caller_window (GCR_PROMPT (prompt), caller_id);
+-		g_free (caller_id);
+-	}
+-
+ 	loop = g_main_loop_new (NULL, FALSE);
+ 	groups = g_key_file_get_groups (file, NULL);
+ 	for (i = 0; cont && groups[i] != NULL; i++) {
+diff -Naur a/ui/frob-system-prompt.c b/ui/frob-system-prompt.c
+--- a/ui/frob-system-prompt.c	2014-09-23 19:40:08.000000000 +1200
++++ b/ui/frob-system-prompt.c	2016-04-05 08:58:17.398610012 +1200
+@@ -26,7 +26,6 @@
+ #include "egg/egg-testing.h"
+ 
+ #include <gtk/gtk.h>
+-#include <gdk/gdkx.h>
+ 
+ #include <unistd.h>
+ #include <string.h>
+@@ -54,10 +53,6 @@
+ 	gcr_prompt_set_message (GCR_PROMPT (prompt), "This is the message");
+ 	gcr_prompt_set_description (GCR_PROMPT (prompt), "This is the description");
+ 
+-	caller_id = g_strdup_printf ("%lu", (gulong)GDK_WINDOW_XID (gtk_widget_get_window (parent)));
+-	gcr_prompt_set_caller_window (GCR_PROMPT (prompt), caller_id);
+-	g_free (caller_id);
+-
+ 	password = gcr_prompt_password_run (GCR_PROMPT (prompt), NULL, &error);
+ 	if (error != NULL) {
+ 		g_warning ("couldn't prompt for password: %s", error->message);
+diff -Naur a/ui/gcr-prompt-dialog.c b/ui/gcr-prompt-dialog.c
+--- a/ui/gcr-prompt-dialog.c	2014-09-23 19:40:08.000000000 +1200
++++ b/ui/gcr-prompt-dialog.c	2016-04-05 08:37:54.141970840 +1200
+@@ -27,7 +27,6 @@
+ #include "gcr-secure-entry-buffer.h"
+ 
+ #include <gtk/gtk.h>
+-#include <gdk/gdkx.h>
+ #include <glib/gi18n.h>
+ 
+ /**
+@@ -148,14 +147,8 @@
+ 	}
+ 
+ 	display = gtk_widget_get_display (GTK_WIDGET (self));
+-	transient_for = gdk_x11_window_foreign_new_for_display (display, (Window)handle);
+-	if (transient_for == NULL) {
+-		g_warning ("caller-window property doesn't represent a window on current display: %s",
+-		           self->pv->caller_window);
+-	} else {
+-		gdk_window_set_transient_for (window, transient_for);
+-		g_object_unref (transient_for);
+-	}
++	g_warning ("caller-window property doesn't represent a window on current display: %s",
++	           self->pv->caller_window);
+ 
+ 	gtk_window_set_modal (GTK_WINDOW (self), TRUE);
+ }
+diff -Naur a/ui/gcr-prompter-tool.c b/ui/gcr-prompter-tool.c
+--- a/ui/gcr-prompter-tool.c	2014-09-23 19:40:08.000000000 +1200
++++ b/ui/gcr-prompter-tool.c	2016-04-05 08:54:58.355281153 +1200
+@@ -27,7 +27,6 @@
+ 
+ #include <glib/gi18n.h>
+ #include <gtk/gtk.h>
+-#include <gdk/gdkx.h>
+ #include <pango/pango.h>
+ 
+ #include <locale.h>
