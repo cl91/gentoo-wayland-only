@@ -7,8 +7,8 @@ EAPI=5
 inherit cmake-utils eutils git-r3
 
 DESCRIPTION="Wayland compositor library"
-HOMEPAGE="https://github.com/cl91/wlc"
-EGIT_REPO_URI="https://github.com/cl91/wlc.git"
+HOMEPAGE="https://github.com/Cloudef/wlc"
+EGIT_REPO_URI="https://github.com/Cloudef/wlc.git"
 
 
 LICENSE="MIT"
