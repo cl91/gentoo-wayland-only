@@ -133,7 +133,7 @@ src_configure() {
 		$(use_enable gtk gtk2) \
 		$(use_enable gtk xim) \
 		$(use_enable gtk3) \
-		$(use_enable gtk3 ui) \
+		$(use_enable X ui) \
 		$(use_enable libnotify) \
 		$(use_enable nls) \
 		$(use_enable test tests) \
