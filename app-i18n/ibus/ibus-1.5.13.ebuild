@@ -51,7 +51,7 @@ COMMON_DEPEND="
 	nls? ( virtual/libintl )
 	wayland? ( dev-libs/wayland )"
 RDEPEND="${COMMON_DEPEND}
-	x11-apps/setxkbmap
+	X? ( x11-apps/setxkbmap )
 	python? (
 		dev-python/pyxdg
 		deprecated? (
