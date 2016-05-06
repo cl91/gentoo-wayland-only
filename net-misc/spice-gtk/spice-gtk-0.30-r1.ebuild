@@ -8,9 +8,10 @@ WANT_AUTOMAKE="1.12"
 VALA_MIN_API_VERSION="0.14"
 VALA_USE_DEPEND="vapigen"
 
-PYTHON_COMPAT=( python2_7 python3_4 )
+#PYTHON_COMPAT=( python2_7 python3_4 )
 
-inherit autotools eutils multibuild python-single-r1 vala
+inherit autotools eutils multibuild vala
+#inherit autotools eutils multibuild python-single-r1 vala
 
 DESCRIPTION="Set of GObject and Gtk objects for connecting to Spice servers and a client GUI"
 HOMEPAGE="http://spice-space.org http://gitorious.org/spice-gtk"
@@ -22,15 +23,14 @@ KEYWORDS="alpha amd64 ~arm ia64 ppc ppc64 sparc x86"
 IUSE="dbus gstreamer +introspection lz4 policykit pulseaudio sasl smartcard static-libs usbredir vala webdav"
 
 REQUIRED_USE="
-	${PYTHON_REQUIRED_USE}
 	?? ( pulseaudio gstreamer )
 "
+#	${PYTHON_REQUIRED_USE}
 
 # TODO:
 # * check if sys-freebsd/freebsd-lib (from virtual/acl) provides acl/libacl.h
 # * use external pnp.ids as soon as that means not pulling in gnome-desktop
 RDEPEND="
-	${PYTHON_DEPS}
 	pulseaudio? ( media-sound/pulseaudio[glib] )
 	gstreamer? (
 		media-libs/gstreamer:1.0
@@ -64,18 +64,19 @@ RDEPEND="
 		>=dev-libs/glib-2.43.90:2
 		>=net-libs/libsoup-2.49.91 )
 "
+#	${PYTHON_DEPS}
 DEPEND="${RDEPEND}
 	~app-emulation/spice-protocol-0.12.10
 	dev-perl/Text-CSV
-	dev-python/pyparsing[${PYTHON_USEDEP}]
-	dev-python/six[${PYTHON_USEDEP}]
 	>=dev-util/gtk-doc-am-1.14
 	>=dev-util/intltool-0.40.0
-	${PYTHON_DEPS}
 	>=sys-devel/gettext-0.17
 	virtual/pkgconfig
 	vala? ( $(vala_depend) )
 "
+#	dev-python/pyparsing[${PYTHON_USEDEP}]
+#	dev-python/six[${PYTHON_USEDEP}]
+#	${PYTHON_DEPS}
 
 # Hard-deps while building from git:
 # dev-lang/vala:0.14
