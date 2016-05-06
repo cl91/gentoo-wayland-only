@@ -120,13 +120,9 @@ src_configure() {
 		--disable-werror \
 		--enable-pie"
 
-	# Parameter of --with-gtk
-	MULTIBUILD_VARIANTS=( 2.0 )
-	use gtk3 && MULTIBUILD_VARIANTS+=( 3.0 )
-
 	configure() {
 		local myconf=()
-		myconf+=( --with-gtk=${MULTIBUILD_VARIANT} )
+		myconf+=( --with-gtk=3.0 )
 		myconf+=( --without-python )
 
 		ECONF_SOURCE="${S}" econf $@ ${myconf[@]}
