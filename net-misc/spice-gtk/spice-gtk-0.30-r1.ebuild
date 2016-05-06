@@ -121,8 +121,7 @@ src_configure() {
 		--enable-pie"
 
 	# Parameter of --with-gtk
-	MULTIBUILD_VARIANTS=( 2.0 )
-	use gtk3 && MULTIBUILD_VARIANTS+=( 3.0 )
+	MULTIBUILD_VARIANTS+=( 3.0 )
 
 	configure() {
 		local myconf=()
